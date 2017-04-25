@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Model
 {
-    class Boek
+  public  class Boek
     {
         public Int32 Id { get; set; }
         public String Titel { get; set; }
