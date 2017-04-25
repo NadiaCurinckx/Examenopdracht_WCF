@@ -24,5 +24,25 @@ namespace WPF
         {
             InitializeComponent();
         }
+
+        private void btnBoekToevoegen_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnBoekBewerken_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnBoekVerwijderen_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void lsbBoeken_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
