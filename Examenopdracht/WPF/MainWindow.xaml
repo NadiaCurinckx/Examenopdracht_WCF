@@ -1,0 +1,68 @@
+﻿<Window x:Class="WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF"
+        mc:Ignorable="d"
+     Title="Mijn bibliotheek" Width="800" Height="600"
+       Icon="Icon1.ico" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="1.2*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#302722">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"></RowDefinition>
+                    <RowDefinition Height="35"></RowDefinition>
+                    <RowDefinition Height="35"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" x:Name="lblTitel" Content="Titel" HorizontalAlignment="Right" Margin="2" Foreground="#F2E0D7" FontSize="14"  />
+                <Label Grid.Row="1" Grid.Column="0"  x:Name="lblAuteur" Content="Auteur" HorizontalAlignment="Right" Margin="2"  Foreground="#F2E0D7" FontSize="14"/>
+                <Label Grid.Row="2" Grid.Column="0" x:Name="lblAantalPaginas" Content="Aantal pagina's"  HorizontalAlignment="Right" Margin="2" Foreground="#F2E0D7" FontSize="14"/>
+                <Label Grid.Row="3" Grid.Column="0" x:Name="lblGenre" Content="Genre" HorizontalAlignment="Right" Margin="2" Foreground="#F2E0D7" FontSize="14" />
+
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtTitel" Margin="5" Padding="2" Background="#F2E0D7" FontStretch="Medium" FontWeight="Bold" />
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtAuteur" Margin="5" Padding="2" Background="#F2E0D7" FontStretch="Medium"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtAantalPaginas" Margin="5" Padding="2" Background="#F2E0D7" FontStretch="Medium"/>
+                <ListBox Grid.Row="3" Grid.Column="1" x:Name="lsbGenre"  Margin="5" Padding="2" SelectionMode="Multiple" Background="#F2E0D7" Foreground="#302722" FontStretch="Medium" />
+
+            </Grid>
+
+
+
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#B79561" >
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" ></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Row="1" Grid.Column="0" x:Name="btnBoekToevoegen" Content="Nieuw boek toevoegen" Click="btnBoekToevoegen_Click" Background="Transparent" BorderBrush="#302722" BorderThickness="3" Foreground="#302722" FontWeight="Bold"/>
+
+                <Button Grid.Row="1" Grid.Column="1" x:Name="btnBoekBewerken" Content="Geselecteerd boek bewerken"  Click="btnBoekBewerken_Click" Background="Transparent" BorderBrush="#302722" BorderThickness="3" Foreground="#302722" FontWeight="Bold"/>
+                <Button Grid.Row="1" Grid.Column="2" x:Name="btnBoekVerwijderen" Content="Geselecteerd boek verwijderen"  Click="btnBoekVerwijderen_Click" Background="Transparent" BorderBrush="#302722" BorderThickness="3" Foreground="#302722" FontWeight="Bold"/>
+
+            </Grid>
+        </Grid>
+
+        <ListBox Grid.Row="2" x:Name="lsbBoeken"   Padding="10" Background="#F2E0D7" Foreground="#302722" FontSize="13" FontStretch="Medium" SelectionChanged="lsbBoeken_SelectionChanged_1"/>
+
+    </Grid>
+</Window>
