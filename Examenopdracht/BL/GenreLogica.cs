@@ -1,7 +1,9 @@
-﻿using Model;
+﻿using DA;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace BL
 {
