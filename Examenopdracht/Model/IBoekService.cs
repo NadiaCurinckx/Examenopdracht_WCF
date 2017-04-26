@@ -6,16 +6,16 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 
-namespace Server
+namespace Services
 {
-
+   
     [ServiceContract]
-    public interface IService
+    public interface IBoekService
     {
 
-     
-
-        
+        [OperationContract]
+       
     }
+
 
 }

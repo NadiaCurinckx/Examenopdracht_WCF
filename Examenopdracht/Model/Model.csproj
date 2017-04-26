@@ -42,7 +42,8 @@
   <ItemGroup>
     <Compile Include="Boek.cs" />
     <Compile Include="Genre.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="IBoekService.cs" />
+    <Compile Include="IGenreService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
