@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
+using System.Threading.Tasks;
 
-namespace Services
+namespace Model
 {
-   
+
     [ServiceContract]
     public interface IBoekService
     {
+        [OperationContract]
+        Task<List<Boek>> NeemAlleBoeken();
 
         [OperationContract]
-       
+        Task<Boek> NeemBoek(Int32 code);
+
+        [OperationContract]
+        Task BewaarBoek(Int32 code);
+
+        [OperationContract]
+        Task BewaarBoek(Boek boek);
+
+        [OperationContract]
+        Task<int> WijzigBoek(Boek boek, List<int> genreIds);
+
+        [OperationContract]
+        Task VerwijderBoek(Int32 code);
     }
-
-
 }

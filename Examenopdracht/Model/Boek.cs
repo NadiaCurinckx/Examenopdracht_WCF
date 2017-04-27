@@ -10,5 +10,10 @@ namespace Model
         public String Auteur { get; set; }
         public Int32 AantalPaginas { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }
+
+        public override string ToString()
+        {
+            return $"[{Id}] {Titel} - {Auteur} ({AantalPaginas})";
+        }
     }
 }
