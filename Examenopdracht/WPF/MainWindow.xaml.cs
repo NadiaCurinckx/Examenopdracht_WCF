@@ -43,7 +43,9 @@ namespace WPF
 
         private void btnBoekBewerken_Click(object sender, RoutedEventArgs e)
         {
-
+            EditeerBoek();
+            ToonBoeken();
+            MaakVeldenLeeg();
         }
 
         private void btnBoekVerwijderen_Click(object sender, RoutedEventArgs e)
@@ -55,7 +57,7 @@ namespace WPF
 
         private void lsbBoeken_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-
+            ToonGeselecteerdBoek();
         }
 
 
@@ -156,5 +158,44 @@ namespace WPF
             }
 
         }
+
+        public void EditeerBoek()
+        {
+            if (IsGeldigBoek())
+            {
+                Boek geselecteerdBoek = (Boek)lsbBoeken.SelectedItem;
+
+                if (geselecteerdBoek != null)
+                {
+                    //_boekLogica.WijzigBoek(geselecteerdBoek, List<int>NeemGeselecteerdeGenres())
+                }
+
+                else
+                {
+                    MessageBox.Show("Het lijkt erop dat een andere collega het boek, dat u wenste te bewerken, heeft verwijderd.", "Fout tijdens bewerken van het boek.", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+
+            }
+
+
+            else
+            {
+                MessageBox.Show("Controleer of je alle velden correct hebt ingevuld.", "Fout tijdens bewaren van het boek", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void ToonGeselecteerdBoek()
+        {
+            Boek geselecteerdBoek = (Boek)lsbBoeken.SelectedItem;
+            if (geselecteerdBoek != null)
+            {
+                _boekLogica.NeemBoek(geselecteerdBoek.Id);
+
+
+            }
+        }
+
+
     }
 }
