@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-   public interface IBoekLogica
+    public interface IBoekLogica
     {
         Task<List<Boek>> NeemAlleBoeken();
 
+        Task<Boek> NeemBoek(int code);
+
         Task BewaarBoek(Int32 code);
         Task BewaarBoek(Boek boek);
-
-        Task<Boek> NeemBoek(int code);
 
         Task<int> WijzigBoek(Boek boek, List<int> genreIds = null);
 

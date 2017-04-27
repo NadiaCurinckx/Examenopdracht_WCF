@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Model;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WPF
 {
@@ -20,10 +11,28 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private readonly IBoekService _boekLogica;
+        private readonly IGenreService _genreLogica;
+
+
         public MainWindow()
         {
             InitializeComponent();
+
+            var genreChannelFactory = new ChannelFactory<IGenreService>(new BasicHttpBinding());
+            _genreLogica = genreChannelFactory.CreateChannel(new EndpointAddress("http://localhost:1399/CategorieService.svc"));
+
+            var boekChannelFactory = new ChannelFactory<IBoekService>(new BasicHttpBinding());
+            _boekLogica = boekChannelFactory.CreateChannel(new EndpointAddress("http://localhost:1399/BoekService.svc"));
+
         }
+
+        //private async Task LijstenVernieuwen()
+        //{
+            
+        //}
+
 
         private void btnBoekToevoegen_Click(object sender, RoutedEventArgs e)
         {

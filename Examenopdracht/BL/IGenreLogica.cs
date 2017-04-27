@@ -9,8 +9,8 @@ namespace BL
         Task<List<Genre>> NeemAlleGenres();
         Task<Genre> GeefGenre(int id);
 
-        Task GenreOpslaan(Genre genre);
-        Task GenreWijzigen(Genre genre);
-        Task GenreVerwijderen(int code);
+        //Task GenreOpslaan(Genre genre);
+        //Task GenreWijzigen(Genre genre);
+        //Task GenreVerwijderen(int code);
     }
 }

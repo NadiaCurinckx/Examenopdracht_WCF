@@ -17,10 +17,14 @@ namespace BL
             _database = database;
         }
 
-
         public Task<List<Boek>> NeemAlleBoeken()
         {
             return _database.Boeken.ToListAsync();
+        }
+
+        public Task<Boek> NeemBoek(Int32 code)
+        {
+            return _database.Boeken.SingleOrDefaultAsync(x => x.Id == code);
         }
 
         public Task BewaarBoek(Int32 code)
@@ -72,12 +76,6 @@ namespace BL
             }
 
             return _database.SaveChangesAsync();
-        }
-
-
-        public Task<Boek> NeemBoek(Int32 code)
-        {
-            return _database.Boeken.SingleOrDefaultAsync(x => x.Id == code);
         }
     }
 }
