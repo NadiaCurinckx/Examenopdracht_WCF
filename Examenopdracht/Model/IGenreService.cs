@@ -14,6 +14,7 @@ namespace Model
         [OperationContract]
         Task<Genre> GeefGenre(Int32 id);
 
+           /*
         [OperationContract]
         Task GenreOpslaan(Genre genre);
 
@@ -22,5 +23,6 @@ namespace Model
 
         [OperationContract]
         Task GenreVerwijderen(Int32 id);
+        */
     }
 }

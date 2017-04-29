@@ -15,8 +15,8 @@ namespace Model
         [OperationContract]
         Task<Boek> NeemBoek(Int32 code);
 
-        [OperationContract]
-        Task BewaarBoek(Int32 code);
+        /*[OperationContract]
+        Task BewaarBoek(Int32 code);*/
 
         [OperationContract]
         Task BewaarBoek(Boek boek);

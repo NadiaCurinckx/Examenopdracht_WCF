@@ -10,12 +10,7 @@ namespace BL
 {
     public class BoekLogica : IBoekLogica
     {
-        private readonly IBoekenDatabase _database;
-
-        public BoekLogica(IBoekenDatabase database)
-        {
-            _database = database;
-        }
+        private readonly IBoekenDatabase _database = new BoekenDatabase();        
 
         public Task<List<Boek>> NeemAlleBoeken()
         {
@@ -27,7 +22,7 @@ namespace BL
             return _database.Boeken.SingleOrDefaultAsync(x => x.Id == code);
         }
 
-        public Task BewaarBoek(Int32 code)
+        /*public Task BewaarBoek(Int32 code)
         {
 
             var huidigBoek = _database.Boeken.SingleOrDefault(x => x.Id == code);
@@ -38,7 +33,7 @@ namespace BL
 
             }
             return _database.SaveChangesAsync();
-        }
+        }*/
 
         public Task BewaarBoek(Boek boek)
         {

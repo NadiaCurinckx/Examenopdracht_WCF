@@ -24,11 +24,12 @@ namespace WPF
             InitializeComponent();
 
             var genreChannelFactory = new ChannelFactory<IGenreService>(new BasicHttpBinding());
-            _genreLogica = genreChannelFactory.CreateChannel(new EndpointAddress("http://localhost:1399/CategorieService.svc"));
+            _genreLogica = genreChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/CategorieService.svc"));
 
             var boekChannelFactory = new ChannelFactory<IBoekService>(new BasicHttpBinding());
-            _boekLogica = boekChannelFactory.CreateChannel(new EndpointAddress("http://localhost:1399/BoekService.svc"));
+            _boekLogica = boekChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/BoekService.svc"));
 
+            ToonBoeken();
         }
 
 
@@ -128,11 +129,11 @@ namespace WPF
             return lsbGenre.SelectedItems.Cast<Genre>().ToList();
         }
 
-        public void ToonBoeken()
+        public async void ToonBoeken()
         {
             lsbBoeken.Items.Clear();
 
-            Task<List<Boek>> boekenlijst = _boekLogica.NeemAlleBoeken();
+            var boekenlijst = await _boekLogica.NeemAlleBoeken();
 
             foreach (var boek in boekenlijst)
             {

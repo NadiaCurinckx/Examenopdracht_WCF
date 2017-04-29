@@ -9,12 +9,7 @@ namespace BL
 {
     public    class GenreLogica : IGenreLogica
     {
-        private readonly IBoekenDatabase _database;
-
-        public GenreLogica(IBoekenDatabase database)
-        {
-            _database = database;
-        }
+        private readonly IBoekenDatabase _database = new BoekenDatabase();        
 
         public Task<List<Genre>> NeemAlleGenres()
         {
