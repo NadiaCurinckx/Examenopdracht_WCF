@@ -10,11 +10,11 @@ namespace BL
 {
     public class BoekLogica : IBoekLogica
     {
-        private readonly IBoekenDatabase _database = new BoekenDatabase();        
+        private readonly IBoekenDatabase _database = new BoekenDatabase();
 
         public Task<List<Boek>> NeemAlleBoeken()
         {
-            return _database.Boeken.ToListAsync();
+            return _database.Boeken.Include(x => x.Genres).ToListAsync();
         }
 
         public Task<Boek> NeemBoek(Int32 code)

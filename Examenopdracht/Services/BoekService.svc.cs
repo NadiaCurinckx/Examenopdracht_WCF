@@ -26,9 +26,12 @@ namespace Services
             return _boekLogica.BewaarBoek(code);
         }*/
 
-        public Task<List<Boek>> NeemAlleBoeken()
+        public async Task<List<Boek>> NeemAlleBoeken()
         {
-            return _boekLogica.NeemAlleBoeken();
+           
+                var x = await _boekLogica.NeemAlleBoeken();
+                return x;
+          
         }
 
         public Task<Boek> NeemBoek(int code)
