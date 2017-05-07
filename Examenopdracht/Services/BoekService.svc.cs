@@ -28,10 +28,19 @@ namespace Services
 
         public async Task<List<Boek>> NeemAlleBoeken()
         {
-           
-                var x = await _boekLogica.NeemAlleBoeken();
-                return x;
-          
+
+            var alleBoeken = await _boekLogica.NeemAlleBoeken();
+
+            foreach (var b in alleBoeken)
+            {
+                foreach (var g in b.Genres)
+                {
+                    g.Boeken = null;
+                }
+            }
+
+            return alleBoeken;
+
         }
 
         public Task<Boek> NeemBoek(int code)

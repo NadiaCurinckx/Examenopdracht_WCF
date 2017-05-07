@@ -35,30 +35,30 @@ namespace WPF
 
 
 
-        private void btnBoekToevoegen_Click(object sender, RoutedEventArgs e)
+        private async void btnBoekToevoegen_Click(object sender, RoutedEventArgs e)
         {
-            BewaarBoek();
+            await BewaarBoek();
             ToonBoeken();
             MaakVeldenLeeg();
         }
 
-        private void btnBoekBewerken_Click(object sender, RoutedEventArgs e)
+        private async void btnBoekBewerken_Click(object sender, RoutedEventArgs e)
         {
-            EditeerBoek();
+            await EditeerBoek();
             ToonBoeken();
             MaakVeldenLeeg();
         }
 
-        private void btnBoekVerwijderen_Click(object sender, RoutedEventArgs e)
+        private async void btnBoekVerwijderen_Click(object sender, RoutedEventArgs e)
         {
-            VerwijderBoek();
+            await VerwijderBoek();
             ToonBoeken();
             MaakVeldenLeeg();
         }
 
-        private void lsbBoeken_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        private async void lsbBoeken_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-            ToonGeselecteerdBoek();
+            await ToonGeselecteerdBoek();
         }
 
 
@@ -93,18 +93,11 @@ namespace WPF
             return true;
         }
 
-        public async void BewaarBoek()
+        public async Task BewaarBoek()
         {
             if (IsGeldigBoek())
             {
-                Boek boek = new Boek()
-                {
-                    Titel = txtTitel.Text,
-                    Auteur = txtAuteur.Text,
-                    AantalPaginas = Convert.ToInt32(txtAantalPaginas.Text),
-                    Genres = new List<Genre>()
-                };
-
+                var boek = MaakBoekVanInvoerVelden();
 
                 //using (var database = new Database())
                 //{
@@ -149,18 +142,18 @@ namespace WPF
             lsbGenre.SelectedItems.Clear();
         }
 
-        public void VerwijderBoek()
+        public async Task VerwijderBoek()
         {
             Boek geselecteerdBoek = (Boek)lsbBoeken.SelectedItem;
 
             if (geselecteerdBoek != null)
             {
-                _boekLogica.VerwijderBoek(geselecteerdBoek.Id);
+                await _boekLogica.VerwijderBoek(geselecteerdBoek.Id);
             }
 
         }
 
-        public void EditeerBoek()
+        public async Task EditeerBoek()
         {
             if (IsGeldigBoek())
             {
@@ -168,7 +161,9 @@ namespace WPF
 
                 if (geselecteerdBoek != null)
                 {
-                    //_boekLogica.WijzigBoek(geselecteerdBoek, List<int>NeemGeselecteerdeGenres())
+                    var gewijzigdBoek = MaakBoekVanInvoerVelden();
+                    gewijzigdBoek.Id = geselecteerdBoek.Id;
+                    await _boekLogica.WijzigBoek(gewijzigdBoek, new List<int>());
                 }
 
                 else
@@ -186,15 +181,29 @@ namespace WPF
             }
         }
 
-        public void ToonGeselecteerdBoek()
+        public async Task ToonGeselecteerdBoek()
         {
             Boek geselecteerdBoek = (Boek)lsbBoeken.SelectedItem;
             if (geselecteerdBoek != null)
             {
-                _boekLogica.NeemBoek(geselecteerdBoek.Id);
-
-
+                geselecteerdBoek = await _boekLogica.NeemBoek(geselecteerdBoek.Id);
+                txtTitel.Text = geselecteerdBoek.Titel;
+                txtAuteur.Text = geselecteerdBoek.Auteur;
+                txtAantalPaginas.Text = geselecteerdBoek.AantalPaginas.ToString();
             }
+        }
+
+        private Boek MaakBoekVanInvoerVelden()
+        {
+            var boek = new Boek()
+            {
+                Titel = txtTitel.Text,
+                Auteur = txtAuteur.Text,
+                AantalPaginas = Convert.ToInt32(txtAantalPaginas.Text),
+                Genres = new List<Genre>()
+            };
+
+            return boek;
         }
 
 
