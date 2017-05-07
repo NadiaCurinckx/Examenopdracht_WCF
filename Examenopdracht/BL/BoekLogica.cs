@@ -37,9 +37,9 @@ namespace BL
 
         public async Task<Boek> BewaarBoek(Boek boek)
         {
-            var newBoek = _database.Boeken.Add(boek);
+            var nieuwBoek = _database.Boeken.Add(boek);
             await _database.SaveChangesAsync();
-            return newBoek;
+            return nieuwBoek;
         }
 
 

@@ -99,9 +99,9 @@ namespace WPF
             if (IsGeldigBoek())
             {
                 var boek = MaakBoekVanInvoerVelden();                
-                var newBoek = await _boekLogica.BewaarBoek(boek);
+                var nieuwBoek = await _boekLogica.BewaarBoek(boek);
                 var geselecteerdeGenreIds = NeemGeselecteerdeGenres().Select(g => g.Id).ToList();
-                await _genreLogica.KoppelGenresVoorBoek(newBoek.Id, geselecteerdeGenreIds);
+                await _genreLogica.KoppelGenresVoorBoek(nieuwBoek.Id, geselecteerdeGenreIds);
             }
 
             else
