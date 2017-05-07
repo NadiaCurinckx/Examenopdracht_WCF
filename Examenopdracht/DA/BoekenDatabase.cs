@@ -17,7 +17,6 @@ namespace DA
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Boek>().ToTable("Boeken");
             modelBuilder.Entity<Genre>().ToTable("Genres");
             base.OnModelCreating(modelBuilder);

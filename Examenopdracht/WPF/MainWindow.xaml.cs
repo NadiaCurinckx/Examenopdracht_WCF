@@ -24,12 +24,13 @@ namespace WPF
             InitializeComponent();
 
             var genreChannelFactory = new ChannelFactory<IGenreService>(new BasicHttpBinding());
-            _genreLogica = genreChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/CategorieService.svc"));
+            _genreLogica = genreChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/GenreService.svc"));
 
             var boekChannelFactory = new ChannelFactory<IBoekService>(new BasicHttpBinding());
             _boekLogica = boekChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/BoekService.svc"));
 
             ToonBoeken();
+            ToonGenres();
         }
 
 
@@ -97,18 +98,8 @@ namespace WPF
         {
             if (IsGeldigBoek())
             {
-                var boek = MaakBoekVanInvoerVelden();
-
-                //using (var database = new Database())
-                //{
-                //    foreach (var genre in NeemGeselecteerdeGenres())
-                //    {
-                //        boek.Genres.Add(database.Genres.SingleOrDefault(x => x.Id == genre.Id));
-                //    }
-                //}
-
+                var boek = MaakBoekVanInvoerVelden();                
                 await _boekLogica.BewaarBoek(boek);
-
             }
 
             else
@@ -131,6 +122,15 @@ namespace WPF
             foreach (var boek in boekenlijst)
             {
                 lsbBoeken.Items.Add(boek);
+            }
+        }
+
+        public async void ToonGenres()
+        {
+            var genrelijst = await _genreLogica.NeemAlleGenres();
+            foreach (var genre in genrelijst)
+            {
+                lsbGenre.Items.Add(genre);
             }
         }
 
@@ -162,8 +162,9 @@ namespace WPF
                 if (geselecteerdBoek != null)
                 {
                     var gewijzigdBoek = MaakBoekVanInvoerVelden();
+                    var geselecteerdeGenreIds = NeemGeselecteerdeGenres().Select(g => g.Id).ToList();
                     gewijzigdBoek.Id = geselecteerdBoek.Id;
-                    await _boekLogica.WijzigBoek(gewijzigdBoek, new List<int>());
+                    await _boekLogica.WijzigBoek(gewijzigdBoek, geselecteerdeGenreIds);
                 }
 
                 else

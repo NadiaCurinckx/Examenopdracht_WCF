@@ -19,7 +19,11 @@ namespace BL
 
         public Task<Boek> NeemBoek(Int32 code)
         {
-            return _database.Boeken.SingleOrDefaultAsync(x => x.Id == code);
+            return _database.Boeken
+                    /*.Include(x => x.Genres)
+                    .Where(x => x.Id == code)*/
+                    .FirstOrDefaultAsync();
+                /*.SingleOrDefaultAsync(x => x.Id == code);*/
         }
 
         /*public Task BewaarBoek(Int32 code)
@@ -52,7 +56,17 @@ namespace BL
                     ? new List<Genre>()
                     : _database.Genres.Where(x => genreIds.Contains(x.Id)).ToList();
 
-                huidigBoek.Genres = geselecteerdeGenres;
+
+                if (huidigBoek.Genres != null)
+                {
+                    foreach (var genre in huidigBoek.Genres)
+                    {
+                        genre.Boeken.Remove(huidigBoek);
+                    }
+                }
+
+                huidigBoek.Genres = geselecteerdeGenres;                
+
                 huidigBoek.Auteur = boek.Auteur;
                 huidigBoek.Titel = boek.Titel;
                 huidigBoek.AantalPaginas = boek.AantalPaginas;
