@@ -16,9 +16,9 @@ namespace Services
     {
         private readonly IBoekLogica _boekLogica = new BoekLogica();
 
-        public Task BewaarBoek(Boek boek)
+        public async Task<Boek> BewaarBoek(Boek boek)
         {
-            return _boekLogica.BewaarBoek(boek);
+            return await _boekLogica.BewaarBoek(boek);
         }
 
         /*public Task BewaarBoek(int code)
@@ -53,9 +53,9 @@ namespace Services
             return _boekLogica.VerwijderBoek(code);
         }
 
-        public Task<int> WijzigBoek(Boek boek, List<int> genreIds)
+        public Task<int> WijzigBoek(Boek boek)
         {
-            return _boekLogica.WijzigBoek(boek, genreIds);
+            return _boekLogica.WijzigBoek(boek);
         }
     }
 }

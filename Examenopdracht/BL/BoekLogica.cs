@@ -19,11 +19,7 @@ namespace BL
 
         public Task<Boek> NeemBoek(Int32 code)
         {
-            return _database.Boeken
-                    /*.Include(x => x.Genres)
-                    .Where(x => x.Id == code)*/
-                    .FirstOrDefaultAsync();
-                /*.SingleOrDefaultAsync(x => x.Id == code);*/
+            return _database.Boeken.SingleOrDefaultAsync(x => x.Id == code);
         }
 
         /*public Task BewaarBoek(Int32 code)
@@ -39,34 +35,20 @@ namespace BL
             return _database.SaveChangesAsync();
         }*/
 
-        public Task BewaarBoek(Boek boek)
+        public async Task<Boek> BewaarBoek(Boek boek)
         {
-            _database.Boeken.Add(boek);
-            return _database.SaveChangesAsync();
+            var newBoek = _database.Boeken.Add(boek);
+            await _database.SaveChangesAsync();
+            return newBoek;
         }
 
 
-        public async Task<int> WijzigBoek(Boek boek, List<int> genreIds)
+        public async Task<int> WijzigBoek(Boek boek)
         {
             var huidigBoek = _database.Boeken.SingleOrDefault(x => x.Id == boek.Id);
 
             if (huidigBoek != null)
-            {
-                var geselecteerdeGenres = genreIds == null
-                    ? new List<Genre>()
-                    : _database.Genres.Where(x => genreIds.Contains(x.Id)).ToList();
-
-
-                if (huidigBoek.Genres != null)
-                {
-                    foreach (var genre in huidigBoek.Genres)
-                    {
-                        genre.Boeken.Remove(huidigBoek);
-                    }
-                }
-
-                huidigBoek.Genres = geselecteerdeGenres;                
-
+            {                            
                 huidigBoek.Auteur = boek.Auteur;
                 huidigBoek.Titel = boek.Titel;
                 huidigBoek.AantalPaginas = boek.AantalPaginas;

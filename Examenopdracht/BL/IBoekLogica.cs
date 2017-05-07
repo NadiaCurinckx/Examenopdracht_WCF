@@ -14,9 +14,9 @@ namespace BL
         Task<Boek> NeemBoek(int code);
 
         /*Task BewaarBoek(Int32 code);*/
-        Task BewaarBoek(Boek boek);
+        Task<Boek> BewaarBoek(Boek boek);
 
-        Task<int> WijzigBoek(Boek boek, List<int> genreIds = null);
+        Task<int> WijzigBoek(Boek boek);
 
         Task VerwijderBoek(Int32 code);
 

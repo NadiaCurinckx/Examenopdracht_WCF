@@ -8,6 +8,8 @@ namespace BL
     {
         Task<List<Genre>> NeemAlleGenres();
         Task<Genre> GeefGenre(int id);
+        Task<List<Genre>> GeefGenresVoorBoek(int id);
+        Task<int> KoppelGenresVoorBoek(int boekId, List<int> genreIds);
 
         //Task GenreOpslaan(Genre genre);
         //Task GenreWijzigen(Genre genre);

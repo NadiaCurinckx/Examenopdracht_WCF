@@ -14,15 +14,21 @@ namespace Model
         [OperationContract]
         Task<Genre> GeefGenre(Int32 id);
 
-           /*
         [OperationContract]
-        Task GenreOpslaan(Genre genre);
+        Task<List<Genre>> GeefGenresVoorBoek(int id);
 
         [OperationContract]
-        Task GenreWijzigen(Genre genre);
+        Task<int> KoppelGenresVoorBoek(int boekId, List<int> genreIds);
 
-        [OperationContract]
-        Task GenreVerwijderen(Int32 id);
-        */
+        /*
+     [OperationContract]
+     Task GenreOpslaan(Genre genre);
+
+     [OperationContract]
+     Task GenreWijzigen(Genre genre);
+
+     [OperationContract]
+     Task GenreVerwijderen(Int32 id);
+     */
     }
 }

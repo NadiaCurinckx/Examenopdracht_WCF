@@ -19,10 +19,10 @@ namespace Model
         Task BewaarBoek(Int32 code);*/
 
         [OperationContract]
-        Task BewaarBoek(Boek boek);
+        Task<Boek> BewaarBoek(Boek boek);
 
         [OperationContract]
-        Task<int> WijzigBoek(Boek boek, List<int> genreIds);
+        Task<int> WijzigBoek(Boek boek);
 
         [OperationContract]
         Task VerwijderBoek(Int32 code);

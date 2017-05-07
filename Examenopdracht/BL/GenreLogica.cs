@@ -1,6 +1,7 @@
 ﻿using DA;
 using Model;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data.Entity;
@@ -21,6 +22,27 @@ namespace BL
 
             return _database.Genres.SingleOrDefaultAsync(x => x.Id == id);
 
+        }
+
+        public Task<List<Genre>> GeefGenresVoorBoek(int id)
+        {
+            return _database.Genres.Where(g => g.Boeken.Select(b => b.Id).Contains(id)).ToListAsync();
+        }
+
+        public async Task<int> KoppelGenresVoorBoek(int boekId, List<int> genreIds)
+        {
+            var boek = await _database.Boeken.Include(x => x.Genres).FirstOrDefaultAsync(b => b.Id == boekId);
+            if (boek != null)
+            {
+                var genres = await _database.Genres.Where(g => genreIds.Contains(g.Id)).ToListAsync();
+                foreach (var genre in boek.Genres)
+                {
+                    genre.Boeken?.Remove(boek);
+                }
+                boek.Genres = genres;             
+            }
+
+            return await _database.SaveChangesAsync();
         }
 
         //public Task GenreOpslaan(Genre genre)

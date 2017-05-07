@@ -99,7 +99,9 @@ namespace WPF
             if (IsGeldigBoek())
             {
                 var boek = MaakBoekVanInvoerVelden();                
-                await _boekLogica.BewaarBoek(boek);
+                var newBoek = await _boekLogica.BewaarBoek(boek);
+                var geselecteerdeGenreIds = NeemGeselecteerdeGenres().Select(g => g.Id).ToList();
+                await _genreLogica.KoppelGenresVoorBoek(newBoek.Id, geselecteerdeGenreIds);
             }
 
             else
@@ -111,6 +113,10 @@ namespace WPF
         public List<Genre> NeemGeselecteerdeGenres()
         {
             return lsbGenre.SelectedItems.Cast<Genre>().ToList();
+        }
+        public Genre NeemListBoxGenreObjectVanGenre(Genre genre)
+        {
+            return lsbGenre.Items.Cast<Genre>().Where(g => g.Id == genre.Id).FirstOrDefault();
         }
 
         public async void ToonBoeken()
@@ -131,6 +137,18 @@ namespace WPF
             foreach (var genre in genrelijst)
             {
                 lsbGenre.Items.Add(genre);
+            }
+        }
+        public void VisualiseerGeselecteerdeGenres(List<Genre> genresTeSelecteren)
+        {
+            lsbGenre.SelectedItems.Clear();
+            if(genresTeSelecteren == null || genresTeSelecteren.Count == 0)
+            {
+                return;
+            }
+            foreach(var genre in genresTeSelecteren)
+            {                
+                lsbGenre.SelectedItems.Add(NeemListBoxGenreObjectVanGenre(genre));
             }
         }
 
@@ -164,7 +182,8 @@ namespace WPF
                     var gewijzigdBoek = MaakBoekVanInvoerVelden();
                     var geselecteerdeGenreIds = NeemGeselecteerdeGenres().Select(g => g.Id).ToList();
                     gewijzigdBoek.Id = geselecteerdBoek.Id;
-                    await _boekLogica.WijzigBoek(gewijzigdBoek, geselecteerdeGenreIds);
+                    await _boekLogica.WijzigBoek(gewijzigdBoek);
+                    await _genreLogica.KoppelGenresVoorBoek(gewijzigdBoek.Id, geselecteerdeGenreIds);
                 }
 
                 else
@@ -187,11 +206,17 @@ namespace WPF
             Boek geselecteerdBoek = (Boek)lsbBoeken.SelectedItem;
             if (geselecteerdBoek != null)
             {
+                // data ophalen
                 geselecteerdBoek = await _boekLogica.NeemBoek(geselecteerdBoek.Id);
+                geselecteerdBoek.Genres = await _genreLogica.GeefGenresVoorBoek(geselecteerdBoek.Id);
+
+                // visualiseren
                 txtTitel.Text = geselecteerdBoek.Titel;
                 txtAuteur.Text = geselecteerdBoek.Auteur;
                 txtAantalPaginas.Text = geselecteerdBoek.AantalPaginas.ToString();
+                VisualiseerGeselecteerdeGenres(geselecteerdBoek.Genres?.ToList());
             }
+            
         }
 
         private Boek MaakBoekVanInvoerVelden()
@@ -201,7 +226,7 @@ namespace WPF
                 Titel = txtTitel.Text,
                 Auteur = txtAuteur.Text,
                 AantalPaginas = Convert.ToInt32(txtAantalPaginas.Text),
-                Genres = new List<Genre>()
+                Genres = null
             };
 
             return boek;
