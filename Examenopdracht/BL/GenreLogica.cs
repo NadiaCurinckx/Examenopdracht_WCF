@@ -10,7 +10,7 @@ namespace BL
 {
     public class GenreLogica : IGenreLogica
     {
-        private readonly IBoekenDatabase _database = new BoekenDatabase();        
+        private readonly IBoekenDatabase _database = new BoekenDatabase();
 
         public Task<List<Genre>> NeemAlleGenres()
         {
@@ -19,9 +19,7 @@ namespace BL
 
         public Task<Genre> GeefGenre(Int32 id)
         {
-
             return _database.Genres.SingleOrDefaultAsync(x => x.Id == id);
-
         }
 
         public Task<List<Genre>> GeefGenresVoorBoek(int id)
@@ -33,22 +31,24 @@ namespace BL
         {
             var boek = await _database.Boeken.Include(x => x.Genres).FirstOrDefaultAsync(b => b.Id == boekId);
             if (boek != null)
-            {                
+            {
                 foreach (var genre in boek.Genres)
                 {
                     genre.Boeken?.Remove(boek);
                 }
 
                 var genres = await _database.Genres.Where(g => genreIds.Contains(g.Id)).ToListAsync();
-                foreach(var genre in genres)
+                boek.Genres = genres;
+
+                foreach (var genre in genres)
                 {
-                    if(genre.Boeken == null)
+                    if (genre.Boeken == null)
                     {
                         genre.Boeken = new List<Boek>();
                     }
                     genre.Boeken.Add(boek);
                 }
-                boek.Genres = genres;             
+
             }
 
             return await _database.SaveChangesAsync();

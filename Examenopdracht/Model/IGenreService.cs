@@ -19,16 +19,5 @@ namespace Model
 
         [OperationContract]
         Task<int> KoppelGenresVoorBoek(int boekId, List<int> genreIds);
-
-        /*
-     [OperationContract]
-     Task GenreOpslaan(Genre genre);
-
-     [OperationContract]
-     Task GenreWijzigen(Genre genre);
-
-     [OperationContract]
-     Task GenreVerwijderen(Int32 id);
-     */
     }
 }

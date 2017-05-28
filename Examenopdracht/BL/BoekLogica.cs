@@ -22,26 +22,12 @@ namespace BL
             return _database.Boeken.SingleOrDefaultAsync(x => x.Id == code);
         }
 
-        /*public Task BewaarBoek(Int32 code)
-        {
-
-            var huidigBoek = _database.Boeken.SingleOrDefault(x => x.Id == code);
-
-            if (huidigBoek != null)
-            {
-                _database.Boeken.Add(huidigBoek);
-
-            }
-            return _database.SaveChangesAsync();
-        }*/
-
         public async Task<Boek> BewaarBoek(Boek boek)
         {
             var nieuwBoek = _database.Boeken.Add(boek);
             await _database.SaveChangesAsync();
             return nieuwBoek;
         }
-
 
         public async Task<int> WijzigBoek(Boek boek)
         {

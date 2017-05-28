@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DA
 {
-    public  interface IBoekenDatabase
+    public interface IBoekenDatabase
     {
         DbSet<Boek> Boeken { get; set; }
         DbSet<Genre> Genres { get; set; }

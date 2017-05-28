@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-
     [ServiceContract]
     public interface IBoekService
     {
@@ -14,9 +13,6 @@ namespace Model
 
         [OperationContract]
         Task<Boek> NeemBoek(Int32 code);
-
-        /*[OperationContract]
-        Task BewaarBoek(Int32 code);*/
 
         [OperationContract]
         Task<Boek> BewaarBoek(Boek boek);

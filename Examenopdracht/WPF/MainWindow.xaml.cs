@@ -14,10 +14,8 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private readonly IBoekService _boekLogica;
         private readonly IGenreService _genreLogica;
-
 
         public MainWindow()
         {
@@ -32,9 +30,6 @@ namespace WPF
             ToonBoeken();
             ToonGenres();
         }
-
-
-
 
         private async void btnBoekToevoegen_Click(object sender, RoutedEventArgs e)
         {
@@ -61,9 +56,6 @@ namespace WPF
         {
             await ToonGeselecteerdBoek();
         }
-
-
-
 
         public bool IsGeldigBoek()
         {
@@ -98,7 +90,7 @@ namespace WPF
         {
             if (IsGeldigBoek())
             {
-                var boek = MaakBoekVanInvoerVelden();                
+                var boek = MaakBoekVanInvoerVelden();
                 var nieuwBoek = await _boekLogica.BewaarBoek(boek);
                 var geselecteerdeGenreIds = NeemGeselecteerdeGenres().Select(g => g.Id).ToList();
                 await _genreLogica.KoppelGenresVoorBoek(nieuwBoek.Id, geselecteerdeGenreIds);
@@ -114,7 +106,8 @@ namespace WPF
         {
             return lsbGenre.SelectedItems.Cast<Genre>().ToList();
         }
-        public Genre NeemListBoxGenreObjectVanGenre(Genre genre)
+
+        public Genre NeemListboxItemVoorGenre(Genre genre)
         {
             return lsbGenre.Items.Cast<Genre>().Where(g => g.Id == genre.Id).FirstOrDefault();
         }
@@ -139,16 +132,17 @@ namespace WPF
                 lsbGenre.Items.Add(genre);
             }
         }
-        public void VisualiseerGeselecteerdeGenres(List<Genre> genresTeSelecteren)
+
+        public void VisualiseerGenresVanGeselecteerdBoek(List<Genre> genresTeSelecteren)
         {
             lsbGenre.SelectedItems.Clear();
-            if(genresTeSelecteren == null || genresTeSelecteren.Count == 0)
+            if (genresTeSelecteren == null || genresTeSelecteren.Count == 0)
             {
                 return;
             }
-            foreach(var genre in genresTeSelecteren)
-            {                
-                lsbGenre.SelectedItems.Add(NeemListBoxGenreObjectVanGenre(genre));
+            foreach (var genre in genresTeSelecteren)
+            {
+                lsbGenre.SelectedItems.Add(NeemListboxItemVoorGenre(genre));
             }
         }
 
@@ -168,7 +162,6 @@ namespace WPF
             {
                 await _boekLogica.VerwijderBoek(geselecteerdBoek.Id);
             }
-
         }
 
         public async Task EditeerBoek()
@@ -190,10 +183,7 @@ namespace WPF
                 {
                     MessageBox.Show("Het lijkt erop dat een andere collega het boek, dat u wenste te bewerken, heeft verwijderd.", "Fout tijdens bewerken van het boek.", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
-
             }
-
 
             else
             {
@@ -214,9 +204,8 @@ namespace WPF
                 txtTitel.Text = geselecteerdBoek.Titel;
                 txtAuteur.Text = geselecteerdBoek.Auteur;
                 txtAantalPaginas.Text = geselecteerdBoek.AantalPaginas.ToString();
-                VisualiseerGeselecteerdeGenres(geselecteerdBoek.Genres?.ToList());
+                VisualiseerGenresVanGeselecteerdBoek(geselecteerdBoek.Genres?.ToList());
             }
-            
         }
 
         private Boek MaakBoekVanInvoerVelden()
@@ -231,7 +220,5 @@ namespace WPF
 
             return boek;
         }
-
-
     }
 }
