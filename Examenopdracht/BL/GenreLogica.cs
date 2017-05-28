@@ -48,7 +48,6 @@ namespace BL
                     }
                     genre.Boeken.Add(boek);
                 }
-
             }
 
             return await _database.SaveChangesAsync();

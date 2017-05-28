@@ -14,18 +14,18 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IBoekService _boekLogica;
-        private readonly IGenreService _genreLogica;
+        private readonly IBoekService _boekService;
+        private readonly IGenreService _genreService;
 
         public MainWindow()
         {
             InitializeComponent();
 
             var genreChannelFactory = new ChannelFactory<IGenreService>(new BasicHttpBinding());
-            _genreLogica = genreChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/GenreService.svc"));
+            _genreService = genreChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/GenreService.svc"));
 
             var boekChannelFactory = new ChannelFactory<IBoekService>(new BasicHttpBinding());
-            _boekLogica = boekChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/BoekService.svc"));
+            _boekService = boekChannelFactory.CreateChannel(new EndpointAddress("http://localhost:8054/BoekService.svc"));
 
             ToonBoeken();
             ToonGenres();
@@ -91,9 +91,9 @@ namespace WPF
             if (IsGeldigBoek())
             {
                 var boek = MaakBoekVanInvoerVelden();
-                var nieuwBoek = await _boekLogica.BewaarBoek(boek);
+                var nieuwBoek = await _boekService.BewaarBoek(boek);
                 var geselecteerdeGenreIds = NeemGeselecteerdeGenres().Select(g => g.Id).ToList();
-                await _genreLogica.KoppelGenresVoorBoek(nieuwBoek.Id, geselecteerdeGenreIds);
+                await _genreService.KoppelGenresVoorBoek(nieuwBoek.Id, geselecteerdeGenreIds);
             }
 
             else
@@ -116,7 +116,7 @@ namespace WPF
         {
             lsbBoeken.Items.Clear();
 
-            var boekenlijst = await _boekLogica.NeemAlleBoeken();
+            var boekenlijst = await _boekService.NeemAlleBoeken();
 
             foreach (var boek in boekenlijst)
             {
@@ -126,7 +126,7 @@ namespace WPF
 
         public async void ToonGenres()
         {
-            var genrelijst = await _genreLogica.NeemAlleGenres();
+            var genrelijst = await _genreService.NeemAlleGenres();
             foreach (var genre in genrelijst)
             {
                 lsbGenre.Items.Add(genre);
@@ -160,7 +160,7 @@ namespace WPF
 
             if (geselecteerdBoek != null)
             {
-                await _boekLogica.VerwijderBoek(geselecteerdBoek.Id);
+                await _boekService.VerwijderBoek(geselecteerdBoek.Id);
             }
         }
 
@@ -175,8 +175,8 @@ namespace WPF
                     var gewijzigdBoek = MaakBoekVanInvoerVelden();
                     var geselecteerdeGenreIds = NeemGeselecteerdeGenres().Select(g => g.Id).ToList();
                     gewijzigdBoek.Id = geselecteerdBoek.Id;
-                    await _boekLogica.WijzigBoek(gewijzigdBoek);
-                    await _genreLogica.KoppelGenresVoorBoek(gewijzigdBoek.Id, geselecteerdeGenreIds);
+                    await _boekService.WijzigBoek(gewijzigdBoek);
+                    await _genreService.KoppelGenresVoorBoek(gewijzigdBoek.Id, geselecteerdeGenreIds);
                 }
 
                 else
@@ -197,8 +197,8 @@ namespace WPF
             if (geselecteerdBoek != null)
             {
                 // data ophalen
-                geselecteerdBoek = await _boekLogica.NeemBoek(geselecteerdBoek.Id);
-                geselecteerdBoek.Genres = await _genreLogica.GeefGenresVoorBoek(geselecteerdBoek.Id);
+                geselecteerdBoek = await _boekService.NeemBoek(geselecteerdBoek.Id);
+                geselecteerdBoek.Genres = await _genreService.GeefGenresVoorBoek(geselecteerdBoek.Id);
 
                 // visualiseren
                 txtTitel.Text = geselecteerdBoek.Titel;
